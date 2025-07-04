@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivana | Discover India's Best Cities</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --secondary: #FF6584;
+            --dark: #2D3748;
+            --light: #F7FAFC;
+            --accent: #48BB78;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        /* Header & Logo */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        
+        .logo h1 {
+            font-weight: 700;
+            color: white;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                        url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 2rem;
+        }
+        
+        .hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin-bottom: 2rem;
+        }
+        
+        /* Search Bar */
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+        }
+        
+        .search-bar {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .search-bar:focus {
+            outline: none;
+            transform: scale(1.02);
+        }
+        
+        .search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .search-btn:hover {
+            background: var(--secondary);
+        }
+        
+        /* Cities Grid */
+        .cities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .city-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .city-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .city-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .city-info {
+            padding: 1.5rem;
+        }
+        
+        .city-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .city-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .tag {
+            background: var(--light);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--dark);
+        }
+        
+        .tag.food {
+            background: #FFEEEE;
+            color: #FF6584;
+        }
+        
+        .tag.historic {
+            background: #EEF7FF;
+            color: #4299E1;
+        }
+        
+        .tag.nature {
+            background: #F0FFF4;
+            color: #48BB78;
+        }
+        
+        .explore-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .explore-btn:hover {
+            background: var(--secondary);
+        }
+        
+        /* About Section */
+        .about-section {
+            padding: 4rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .about-section h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .about-section p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+        
+        .contact-info {
+            background-color: var(--light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+        
+        .contact-info h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .contact-info a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Modal (City Details) */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalFadeIn 0.4s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .modal-header {
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .modal-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .modal-header h2 {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            color: white;
+            font-size: 2.2rem;
+        }
+        
+        .modal-body {
+            padding: 2rem;
+        }
+        
+        .section {
+            margin-bottom: 2.5rem;
+        }
+        
+        .section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section h3 i {
+            font-size: 1.2rem;
+        }
+        
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .item-card {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .item-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .item-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .item-card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .item-card .rating {
+            color: #FFC107;
+            font-size: 0.9rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        footer p {
+            margin-bottom: 1rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+            
+            .modal-content {
+                max-height: 95vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Logo -->
+    <header>
+        <div class="logo">
+            <img src="https://raw.githubusercontent.com/MananJain19/website-images/main/trivana%20logo%20.jpg" alt="Trivana Logo">
+            <h1>Trivana</h1>
+        </div>
+        <nav>
+            <a href="#" style="color: white; text-decoration: none; margin-left: 1.5rem;">Home</a>
+            <a href="#about" style="color: white; text-decoration: none; margin-left: 1.5rem;">About</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h2>Discover India's Vibrant Cities</h2>
+        <p>Explore hidden gems, must-try foods, and unforgettable experiences in India's most fascinating destinations</p>
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Search for a city...">
+            <button class="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+    </section>
+
+    <!-- Cities Grid -->
+    <section class="cities-grid" id="citiesGrid">
+        <!-- Cities will be dynamically inserted here -->
+    </section>
+
+<!-- About Section -->
+<section class="about-section" id="about">
+    <h2>About Trivana</h2>
+    <p>Trivana is your ultimate guide to exploring the rich cultural heritage, diverse landscapes, and vibrant cities of India. We are passionate about helping travelers discover authentic experiences that go beyond the typical tourist trails.</p>
+    <p>Our mission is to connect you with the heart and soul of India's most fascinating destinations, from the bustling streets of Delhi to the serene backwaters of Kerala. Whether you're a history buff, a food lover, or an adventure seeker, Trivana has something special for you.</p>
+    <p>We carefully curate our recommendations to ensure you get the most out of your travels, with insider tips on hidden gems, must-visit landmarks, and local favorites that you won't find in ordinary guidebooks.</p>
+    
+    <div class="contact-info">
+        <h3>Contact Us</h3>
+        <p>Have questions or suggestions? We'd love to hear from you!</p>
+        <p>Email us at: <a href="mailto:trivanalimited@gmail.com">trivanalimited@gmail.com</a></p>
+        <p>Follow us on: 
+            <a href="https://x.com/OfficialTrivana?t=BY4SAcuVUchJPRrqlPytrg&s=08" target="_blank" style="color: var(--primary); text-decoration: none;">
+                <i class="fab fa-x-twitter"></i> Twitter
+            </a>
+        </p>
+    </div>
+</section>
+
+    <!-- Modal -->
+    <div class="modal" id="cityModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+            <div class="modal-header">
+                <img id="modalCityImage" src="" alt="City Image">
+                <h2 id="modalCityName">City Name</h2>
+            </div>
+            <div class="modal-body">
+                <div class="section">
+                    <h3><i class="fas fa-landmark"></i> Top Spots</h3>
+                    <div class="items-grid" id="topSpots">
+                        <!-- Spots will be inserted here -->
+                    </div>
+                </div>
+                <div class="section">
+                    <h3><i class="fas fa-utensils"></i> Must-Try Foods</h3>
+                    <div class="items-grid" id="mustTryFoods">
+                        <!-- Foods will be inserted here -->
+                    </div>
+                </div>
+                <div class="section">
+                    <h3><i class="fas fa-running"></i> Unique Experiences</h3>
+                    <div class="items-grid" id="uniqueExperiences">
+                        <!-- Experiences will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="social-links">
+            <a href="https://www.instagram.com/official_trivana?igsh=YnNwZjl0emQzZmll" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://x.com/OfficialTrivana?t=BY4SAcuVUchJPRrqlPytrg&s=08" target="_blank"><i class="fab fa-x-twitter"></i></a>
+        </div>
+        <p>© 2025 Trivana | India's Ultimate City Explorer</p>
+        <p>Made with ❤️ for travelers</p>
+    </footer>
+
+    <script>
+        // City Data (All 10 Indian cities)
+        const cities = [
+            {
+                id: "delhi",
+                name: "Delhi",
+                image: "https://images.unsplash.com/photo-1587474260584-136574528ed5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                tagline: "The Historic Capital",
+                spots: [
+                    { name: "Red Fort", highlight: "UNESCO World Heritage Site", rating: "★★★★★" },
+                    { name: "Qutub Minar", highlight: "Tallest brick minaret in the world", rating: "★★★★★" },
+                    { name: "India Gate", highlight: "Iconic war memorial", rating: "★★★★☆" },
+                    { name: "Humayun's Tomb", highlight: "Precursor to the Taj Mahal", rating: "★★★★☆" }
+                ],
+                foods: [
+                    { name: "Butter Chicken", place: "Moti Mahal", type: "Non-Veg" },
+                    { name: "Chole Bhature", place: "Sita Ram Diwan Chand", type: "Veg" },
+                    { name: "Paranthas", place: "Paranthe Wali Gali", type: "Veg" },
+                    { name: "Daulat Ki Chaat", place: "Chandni Chowk", type: "Veg" }
+                ],
+                experiences: [
+                    { name: "Heritage Walk in Old Delhi", duration: "3 hours", bestTime: "Morning" },
+                    { name: "Sound & Light Show at Red Fort", duration: "1 hour", bestTime: "Evening" },
+                    { name: "Shopping at Dilli Haat", duration: "2-3 hours", bestTime: "Afternoon" },
+                    { name: "Sunrise at Jama Masjid", duration: "1 hour", bestTime: "Dawn" }
+                ]
+            },
+            {
+                id: "mumbai",
+                name: "Mumbai",
+                image: "https://images.unsplash.com/photo-1529253355930-ddbe423a2ac7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80",
+                tagline: "The City of Dreams",
+                spots: [
+                    { name: "Gateway of India", highlight: "Iconic colonial-era arch", rating: "★★★★★" },
+                    { name: "Marine Drive", highlight: "3.6km long coastal road", rating: "★★★★☆" },
+                    { name: "Elephanta Caves", highlight: "Ancient rock-cut caves", rating: "★★★★☆" },
+                    { name: "Chhatrapati Shivaji Terminus", highlight: "UNESCO World Heritage Site", rating: "★★★★★" }
+                ],
+                foods: [
+                    { name: "Vada Pav", place: "Street stalls", type: "Veg" },
+                    { name: "Pav Bhaji", place: "Cannon Pav Bhaji", type: "Veg" },
+                    { name: "Bombay Sandwich", place: "Street stalls", type: "Veg" },
+                    { name: "Seafood", place: "Gajalee", type: "Non-Veg" }
+                ],
+                experiences: [
+                    { name: "Dharavi Slum Tour", duration: "3 hours", bestTime: "Morning" },
+                    { name: "Ferry to Elephanta Island", duration: "Half day", bestTime: "Morning" },
+                    { name: "Sunset at Bandra-Worli Sea Link", duration: "1 hour", bestTime: "Evening" },
+                    { name: "Bollywood Studio Tour", duration: "2 hours", bestTime: "Afternoon" }
+                ]
+            },
+            {
+                id: "jaipur",
+                name: "Jaipur",
+                image: "https://images.unsplash.com/photo-1477587458883-47145ed94245?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                tagline: "The Pink City",
+                spots: [
+                    { name: "Hawa Mahal", highlight: "Palace of Winds with 953 windows", rating: "★★★★★" },
+                    { name: "Amber Fort", highlight: "Majestic hilltop fortress", rating: "★★★★★" },
+                    { name: "City Palace", highlight: "Royal residence complex", rating: "★★★★☆" },
+                    { name: "Jantar Mantar", highlight: "Ancient astronomical observatory", rating: "★★★★☆" }
+                ],
+                foods: [
+                    { name: "Dal Baati Churma", place: "Laxmi Misthan Bhandar", type: "Veg" },
+                    { name: "Laal Maas", place: "Handi Restaurant", type: "Non-Veg" },
+                    { name: "Pyaaz Kachori", place: "Rawats", type: "Veg" },
+                    { name: "Ghewar", place: "JMB Sweet House", type: "Veg" }
+                ],
+                experiences: [
+                    { name: "Elephant Ride at Amber Fort", duration: "30 minutes", bestTime: "Morning" },
+                    { name: "Hot Air Balloon Ride", duration: "1 hour", bestTime: "Sunrise" },
+                    { name: "Block Printing Workshop", duration: "2 hours", bestTime: "Afternoon" },
+                    { name: "Night Tour of Nahargarh Fort", duration: "2 hours", bestTime: "Evening" }
+                ]
+            },
+            {
+                id: "goa",
+                name: "Goa",
+                image: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
+                tagline: "Beach Paradise",
+                spots: [
+                    { name: "Palolem Beach", highlight: "Scenic crescent-shaped beach", rating: "★★★★★" },
+                    { name: "Basilica of Bom Jesus", highlight: "UNESCO site with St. Francis Xavier's relics", rating: "★★★★☆" },
+                    { name: "Dudhsagar Falls", highlight: "Four-tiered waterfall", rating: "★★★★★" },
+                    { name: "Fontainhas", highlight: "Latin Quarter with colorful houses", rating: "★★★★☆" }
+                ],
+                foods: [
+                    { name: "Fish Curry Rice", place: "Ritz Classic", type: "Non-Veg" },
+                    { name: "Pork Vindaloo", place: "Viva Panjim", type: "Non-Veg" },
+                    { name: "Bebinca", place: "Confeitaria 31 de Janeiro", type: "Veg" },
+                    { name: "Feni Cocktails", place: "Souza Lobo", type: "Veg" }
+                ],
+                experiences: [
+                    { name: "Water Sports at Calangute", duration: "2-3 hours", bestTime: "Morning" },
+                    { name: "Spice Plantation Tour", duration: "Half day", bestTime: "Morning" },
+                    { name: "Silent Noise Headphone Party", duration: "4 hours", bestTime: "Night" },
+                    { name: "Island Hopping Cruise", duration: "Full day", bestTime: "Daytime" }
+                ]
+            },
+            {
+                id: "varanasi",
+                name: "Varanasi",
+                image:" https://media.istockphoto.com/id/1164329797/photo/hindu-sadhu-sitting-on-a-boat-overlooking-varanasi-city-architecture-at-sunset.jpg?s=612x612&w=0&k=20&c=LbpIHRo7kGT7dbUr6b6UuD1d6P0yCaKZ2lbqo3TY988=",
+                tagline: "Spiritual Capital",
+                spots: [
+                    { name: "Kashi Vishwanath Temple", highlight: "Golden Temple dedicated to Shiva", rating: "★★★★★" },
+                    { name: "Dashashwamedh Ghat", highlight: "Main riverfront with famous Ganga Aarti", rating: "★★★★★" },
+                    { name: "Sarnath", highlight: "Where Buddha gave his first sermon", rating: "★★★★☆" },
+                    { name: "Manikarnika Ghat", highlight: "Sacred cremation ground", rating: "★★★★☆" }
+                ],
+                foods: [
+                    { name: "Tamatar Chaat", place: "Kachori Gali", type: "Veg" },
+                    { name: "Malaiyo", place: "Street stalls (winter only)", type: "Veg" },
+                    { name: "Banarasi Paan", place: "Keshav Tambul Bhandar", type: "Veg" },
+                    { name: "Thandai", place: "Blue Lassi Shop", type: "Veg" }
+                ],
+                experiences: [
+                    { name: "Sunrise Boat Ride on Ganges", duration: "1 hour", bestTime: "Dawn" },
+                    { name: "Evening Ganga Aarti Ceremony", duration: "1 hour", bestTime: "Sunset" },
+                    { name: "Silk Weaving Demonstration", duration: "1 hour", bestTime: "Daytime" },
+                    { name: "Yoga Class by the Ghats", duration: "1 hour", bestTime: "Morning" }
+                ]
+            },
+            {
+                id: "bangalore",
+                name: "Bangalore",
+                image: "https://t3.ftcdn.net/jpg/03/41/95/04/360_F_341950409_Gq1sN2OqYgRZrUTvPohSmgQVubaqzlA5.jpg",
+                tagline: "Garden City & Tech Hub",
+                spots: [
+                    { name: "Lalbagh Botanical Garden", highlight: "240-acre garden with glasshouse", rating: "★★★★☆" },
+                    { name: "Bangalore Palace", highlight: "Tudor-style royal palace", rating: "★★★★☆" },
+                    { name: "Cubbon Park", highlight: "Lush green space in city center", rating: "★★★★☆" },
+                    { name: "Innovative Film City", highlight: "Entertainment complex", rating: "★★★☆☆" }
+                ],
+                foods: [
+                    { name: "Masala Dosa", place: "MTR", type: "Veg" },
+                    { name: "Filter Coffee", place: "Indian Coffee House", type: "Veg" },
+                    { name: "Mangalorean Seafood", place: "Karavalli", type: "Non-Veg" },
+                    { name: "Craft Beer", place: "Toit Brewpub", type: "Veg" }
+                ],
+                experiences: [
+                    { name: "Nandi Hills Sunrise Trek", duration: "Half day", bestTime: "Early morning" },
+                    { name: "Microbrewery Hopping", duration: "3-4 hours", bestTime: "Evening" },
+                    { name: "VR Gaming Experience", duration: "1-2 hours", bestTime: "Anytime" },
+                    { name: "Cubbon Park Cycling", duration: "1 hour", bestTime: "Morning" }
+                ]
+            },
+            {
+                id: "kolkata",
+                name: "Kolkata",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuiWQvKkM_I0I6byC8jX54wkovtJfONeJsvOUOqw_QjH9h1NZ5diFR1dFOW05P4x-P4NA&usqp=CAU",
+                tagline: "City of Joy",
+                spots: [
+                    { name: "Victoria Memorial", highlight: "Marble museum in colonial building", rating: "★★★★★" },
+                    { name: "Howrah Bridge", highlight: "Iconic cantilever bridge over Hooghly", rating: "★★★★☆" },
+                    { name: "Dakshineswar Temple", highlight: "Famous Kali temple", rating: "★★★★☆" },
+                    { name: "Kumartuli", highlight: "Traditional potters' quarter", rating: "★★★★☆" }
+                ],
+                foods: [
+                    { name: "Rosogolla", place: "KC Das", type: "Veg" },
+                    { name: "Kathi Rolls", place: "Nizam's", type: "Non-Veg" },
+                    { name: "Phuchka", place: "Park Street stalls", type: "Veg" },
+                    { name: "Macher Jhol", place: "6 Ballygunge Place", type: "Non-Veg" }
+                ],
+                experiences: [
+                    { name: "Tram Ride Through Old City", duration: "1 hour", bestTime: "Daytime" },
+                    { name: "College Street Book Browsing", duration: "2 hours", bestTime: "Afternoon" },
+                    { name: "Durga Puja Pandal Hopping", duration: "3-4 hours", bestTime: "Evening (Oct)" },
+                    { name: "Kalighat Temple Visit", duration: "1 hour", bestTime: "Morning" }
+                ]
+            },
+            {
+                id: "chennai",
+                name: "Chennai",
+                image: "https://media.istockphoto.com/id/471507884/photo/shore-temple-mamallapuram.jpg?s=612x612&w=0&k=20&c=QvX3e5SD4jPlznA6FBPSLm-_9fYbsf6KO94Bai-hKSU=",
+                tagline: "Gateway to South India",
+                spots: [
+                    { name: "Marina Beach", highlight: "Second longest urban beach", rating: "★★★★☆" },
+                    { name: "Kapaleeshwarar Temple", highlight: "Dravidian-style Shiva temple", rating: "★★★★☆" },
+                    { name: "Fort St. George", highlight: "First British fortress in India", rating: "★★★★☆" },
+                    { name: "DakshinaChitra", highlight: "Living history museum", rating: "★★★★☆" }
+                ],
+                foods: [
+                    { name: "Filter Coffee", place: "Saravana Bhavan", type: "Veg" },
+                    { name: "Chettinad Crab Curry", place: "Annalakshmi", type: "Non-Veg" },
+                    { name: "Idli-Sambar", place: "Murugan Idli Shop", type: "Veg" },
+                    { name: "Kothu Parotta", place: "Junior Kuppanna", type: "Non-Veg" }
+                ],
+                experiences: [
+                    { name: "Bharatanatyam Dance Show", duration: "1.5 hours", bestTime: "Evening" },
+                    { name: "Covelong Surfing", duration: "2 hours", bestTime: "Morning" },
+                    { name: "Mahabalipuram Day Trip", duration: "Full day", bestTime: "Daytime" },
+                    { name: "T Nagar Shopping Spree", duration: "3-4 hours", bestTime: "Afternoon" }
+                ]
+            },
+            {
+                id: "udaipur",
+                name: "Udaipur",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkTha-VcG97rTE7oC8UBpWAA1mJhLWc2Lpwg&s",
+                tagline: "City of Lakes",
+                spots: [
+                    { name: "Lake Pichola", highlight: "Iconic lake with island palaces", rating: "★★★★★" },
+                    { name: "City Palace", highlight: "Largest royal complex in Rajasthan", rating: "★★★★★" },
+                    { name: "Jag Mandir", highlight: "Island palace on Lake Pichola", rating: "★★★★☆" },
+                    { name: "Sajjangarh (Monsoon Palace)", highlight: "Hilltop palace with panoramic views", rating: "★★★★☆" }
+                ],
+                foods: [
+                    { name: "Dal Baati Churma", place: "Ambrai Ghat", type: "Veg" },
+                    { name: "Laal Maas", place: "Jheel Dining", type: "Non-Veg" },
+                    { name: "Gatte ki Sabzi", place: "Millets of Mewar", type: "Veg" },
+                    { name: "Mawa Kachori", place: "Jagdish Misthan Bhandar", type: "Veg" }
+                ],
+                experiences: [
+                    { name: "Boat Dinner on Lake Pichola", duration: "2 hours", bestTime: "Sunset" },
+                    { name: "Miniature Painting Workshop", duration: "2 hours", bestTime: "Afternoon" },
+                    { name: "Vintage Car Museum Visit", duration: "1 hour", bestTime: "Daytime" },
+                    { name: "Heritage Walk in Old City", duration: "3 hours", bestTime: "Morning" }
+                ]
+            },
+            {
+                id: "kochi",
+                name: "Kochi",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqmhtTpNQpUEyG5uunboRutBiu9H1eyF5O6Q&s",
+                tagline: "Queen of Arabian Sea",
+                spots: [
+                    { name: "Fort Kochi", highlight: "Historic colonial district", rating: "★★★★★" },
+                    { name: "Chinese Fishing Nets", highlight: "Iconic shore nets", rating: "★★★★☆" },
+                    { name: "Jew Town", highlight: "Historic Jewish quarter", rating: "★★★★☆" },
+                    { name: "St. Francis Church", highlight: "Oldest European church in India", rating: "★★★★☆" }
+                ],
+                foods: [
+                    { name: "Kerala Sadya", place: "Grand Hotel", type: "Veg" },
+                    { name: "Karimeen Pollichathu", place: "Fort House Restaurant", type: "Non-Veg" },
+                    { name: "Appam with Stew", place: "Kashi Art Cafe", type: "Veg" },
+                    { name: "Banana Chips", place: "Local markets", type: "Veg" }
+                ],
+                experiences: [
+                    { name: "Kathakali Performance", duration: "1.5 hours", bestTime: "Evening" },
+                    { name: "Backwater Houseboat Stay", duration: "Overnight", bestTime: "All day" },
+                    { name: "Spice Market Tour", duration: "2 hours", bestTime: "Morning" },
+                    { name: "Fort Kochi Heritage Walk", duration: "3 hours", bestTime: "Morning" }
+                ]
+            }
+        ];
+
+        // DOM Elements
+        const citiesGrid = document.getElementById('citiesGrid');
+        const cityModal = document.getElementById('cityModal');
+        const modalClose = document.getElementById('modalClose');
+        const modalCityName = document.getElementById('modalCityName');
+        const modalCityImage = document.getElementById('modalCityImage');
+        const topSpots = document.getElementById('topSpots');
+        const mustTryFoods = document.getElementById('mustTryFoods');
+        const uniqueExperiences = document.getElementById('uniqueExperiences');
+        const searchBar = document.querySelector('.search-bar');
+
+        // Render Cities
+        function renderCities(filteredCities = cities) {
+            citiesGrid.innerHTML = '';
+            filteredCities.forEach(city => {
+                const cityCard = document.createElement('div');
+                cityCard.className = 'city-card';
+                cityCard.innerHTML = `
+                    <img src="${city.image}" alt="${city.name}" class="city-img">
+                    <div class="city-info">
+                        <h3>${city.name}</h3>
+                        <p>${city.tagline}</p>
+                        <div class="tags">
+                            <span class="tag historic">Historic</span>
+                            <span class="tag food">Food</span>
+                            <span class="tag nature">Culture</span>
+                        </div>
+                        <button class="explore-btn" data-city="${city.id}">Explore</button>
+                    </div>
+                `;
+                citiesGrid.appendChild(cityCard);
+            });
+
+            // Add event listeners to explore buttons
+            document.querySelectorAll('.explore-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const cityId = e.target.getAttribute('data-city');
+                    openCityModal(cityId);
+                });
+            });
+        }
+
+        // Open City Modal
+        function openCityModal(cityId) {
+            const city = cities.find(c => c.id === cityId);
+            if (!city) return;
+
+            modalCityName.textContent = city.name;
+            modalCityImage.src = city.image;
+
+            // Render spots
+            topSpots.innerHTML = '';
+            city.spots.forEach(spot => {
+                topSpots.innerHTML += `
+                    <div class="item-card">
+                        <h4>${spot.name}</h4>
+                        <p>${spot.highlight}</p>
+                        <p class="rating">${spot.rating}</p>
+                    </div>
+                `;
+            });
+
+            // Render foods
+            mustTryFoods.innerHTML = '';
+            city.foods.forEach(food => {
+                mustTryFoods.innerHTML += `
+                    <div class="item-card">
+                        <h4>${food.name}</h4>
+                        <p>${food.place ? `Best at: ${food.place}` : ''}</p>
+                        <p>${food.type}</p>
+                    </div>
+                `;
+            });
+
+            // Render experiences
+            uniqueExperiences.innerHTML = '';
+            city.experiences.forEach(exp => {
+                uniqueExperiences.innerHTML += `
+                    <div class="item-card">
+                        <h4>${exp.name}</h4>
+                        <p>Duration: ${exp.duration}</p>
+                        <p>Best time: ${exp.bestTime}</p>
+                    </div>
+                `;
+            });
+
+            cityModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close Modal
+        modalClose.addEventListener('click', () => {
+            cityModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Search Functionality
+        searchBar.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            if (searchTerm.length > 0) {
+                const filtered = cities.filter(city => 
+                    city.name.toLowerCase().includes(searchTerm) || 
+                    city.tagline.toLowerCase().includes(searchTerm)
+                );
+                renderCities(filtered);
+            } else {
+                renderCities();
+            }
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCities();
+        });
+    </script>
+</body>
+</html>
